@@ -347,8 +347,8 @@ def checkYellowAlert(cnf1, msg) :
 
 # check for non Alert" events
 def checkNonAlert(cnf1, msg) :
+    tmpmsg = msg.split('!')         # Exclamation Mark is NOT arbitrary    
     if '!' in msg :
-        tmpmsg = msg.split('!')     # Exclamation Mark is NOT arbitrary
         msg = tmpmsg[1]             # the decoded CID half of the message
     else :
         msg = tmpmsg[0]             # the decoded CID message alone
