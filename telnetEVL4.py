@@ -548,9 +548,9 @@ class TelnetEVL4 :
         cmd.append(self.rebooturl)
         rc = subprocess.run(args=cmd, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL).returncode
         if rc == 0 :
-            logging.debug('TEL-024I The curl command to reboot EVL4 succeeded!')
+            logging.info('TEL-024I The curl command to reboot EVL4 succeeded!')
         else :
-            logging.debug('TEL-011E The curl command to reboot EVL4 failed')
+            logging.info('TEL-011E The curl command to reboot EVL4 failed')
         sleep(20)       # give the EVL4 time to reboot and get ready
 
 
