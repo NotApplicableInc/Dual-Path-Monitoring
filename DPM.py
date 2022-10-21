@@ -7,7 +7,7 @@ or FITNESS FOR A PARTICULAR PURPOSE.
 """
 
 """
-Version 1.0 (requires Python 3.9 or a more current release)
+Version 1.01 (requires Python 3.9 or a more current release)
 DPM.py implements Dual Path Monitoring ("DPM") for a Honeywell ("Resideo") Vista home
 security system equipped with an EyezOn Envisalink EVL4 IP Security Interface Module.
 
@@ -28,7 +28,6 @@ if sys.version_info < MIN_PYTHON :
     sys.exit("DPM-001E Cannot continue -- Python %s.%s or later is required.\n" % MIN_PYTHON)
 import subprocess
 import time
-from time import sleep
 from datetime import datetime
 import logging                                      # python logging function
 from config import Configuration                    # class to handle configuration (.ini) files
