@@ -14,7 +14,7 @@ from datetime import datetime
 
 class Configuration:
 
-# Version 1.0
+# Version 1.01
 # A Python class to manage the config file for the DPM.py application
 # The main configuration file (DPM.ini) contains read-only, string variables.
 # The separate, small DPM-metrics.ini config file contains a [Metrics] section that
@@ -48,10 +48,10 @@ class Configuration:
         # Also preserved upper and lower case!
         try :
             self.MetricsParse = configparser.ConfigParser(comment_prefixes='~', allow_no_value=True)
-            self.MetricsParse.optionxform=str      # preserve upper and lower case
-            cfg2file = ['DPM-metrics.ini']  # read and written to configuration file
+            self.MetricsParse.optionxform=str       # preserve upper and lower case
+            cfg2file = ['DPM-metrics.ini']          # read and written to configuration file
             result2 = self.MetricsParse.read(cfg2file)
-            if len(result2) != len(cfg2file): raise ValueError("Failed to open SMS configuration file", cfg2file[0])
+            if len(result2) != len(cfg2file): raise ValueError("Failed to open Metrics configuration file", cfg2file[0])
         except ValueError as ex :
             print('CFG-002E FATAL ERROR:', str(ex))
             sys.exit(16)
