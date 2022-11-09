@@ -14,7 +14,7 @@ from datetime import datetime
 
 class Configuration:
 
-# Version 1.01
+# Version 1.02
 # A Python class to manage the config file for the DPM.py application
 # The main configuration file (DPM.ini) contains read-only, string variables.
 # The separate, small DPM-metrics.ini config file contains a [Metrics] section that
@@ -369,7 +369,7 @@ class Configuration:
 
     def doTelEVL4SoftReboot(self) :
         if self.DPMparse.has_option('TelEVL4', 'TelEVL4SoftReboot') :
-            flag = self.DPMparse.get('TelEVL4', 'TelEVL4SoftReboot')
+            flag = eval(self.DPMparse.get('TelEVL4', 'TelEVL4SoftReboot'))
         if ( (flag is True ) or (flag is False) ) :
             return flag
         else : return True
