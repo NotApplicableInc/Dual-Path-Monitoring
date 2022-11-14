@@ -5,7 +5,7 @@
 # It is distributed AS-IS, WITHOUT ANY WARRANTY, or implied warranty of MERCHANTABILITY
 # or FITNESS FOR A PARTICULAR PURPOSE.
 
-# Version 1.0
+# Version 1.01
 # DPM.sh is a housekeeping script for the Dual Path Monitoring application,
 # (DPM.py) run on a Raspberry Pi model 2, 3, or 4, with Python V3.9 or later.
 # A system reboot should be scheduled to run daily after midnight via  /etc/crontab
@@ -15,9 +15,9 @@
 # equivalent of $LOGDIR/EVL4.log  It also assumes that DPM.ini (config file) directs the
 # runtime log for DPM.py to the actual-path equivalent of $LOGDIR/DPM-yyyymmddhhmmss.log
 
-PATH="/home/pi/DPM-EVL4:$PATH" ; export PATH
-APPDIR="/home/pi/DPM-EVL4"
-LOGDIR="/home/pi/DPM-EVL4/logs"
+PATH="/home/pi1/DPM-EVL4:$PATH" ; export PATH
+APPDIR="/home/pi1/DPM-EVL4"
+LOGDIR="/home/pi1/DPM-EVL4/logs"
 
 # FIRST, check Ras Pi's clock and do any optional modem and EVL4 reboots
 now="$(date '+%Y%m%d%H%M%S')"
