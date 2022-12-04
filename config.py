@@ -14,7 +14,7 @@ from datetime import datetime
 
 class Configuration:
 
-# Version 1.02
+# Version 1.03
 # A Python class to manage the config file for the DPM.py application
 # The main configuration file (DPM.ini) contains read-only, string variables.
 # The separate, small DPM-metrics.ini config file contains a [Metrics] section that
@@ -301,25 +301,25 @@ class Configuration:
     def getIgnoreTokens(self) :
         if self.DPMparse.has_option('SecuritySystem', 'IgnoreTokens') :
             return eval(self.DPMparse.get('SecuritySystem', 'IgnoreTokens'))
-        else: return None
+        else: return []
 
 
     def getNotTheseTokens(self) :
         if self.DPMparse.has_option('SecuritySystem', 'NotTheseTokens') :
             return eval(self.DPMparse.get('SecuritySystem', 'NotTheseTokens'))
-        else: return None
+        else: return []
 
 
     def getUrgentTokens(self) :
         if self.DPMparse.has_option('SecuritySystem', 'UrgentTokens') :
             return eval(self.DPMparse.get('SecuritySystem', 'UrgentTokens'))
-        else: return None
+        else: return []
 
 
     def getImportantTokens(self) :
         if self.DPMparse.has_option('SecuritySystem', 'ImportantTokens') :
             return eval(self.DPMparse.get('SecuritySystem', 'ImportantTokens'))
-        else: return None
+        else: return []
 
 
     def doScanSyslog(self) :
@@ -484,8 +484,8 @@ class Configuration:
                 self.MetricsParse.write(fp)
                 fp.close()
             except (configparser.Error, IOError, OSError) as ex :
-                logging.exception('CFG-003E Error while attempting to update SMS config file: %s', ex)
-        else : logging.error('CFG-004E SMS Configuration file has no, or an invalid SMS-Metrics section!')
+                logging.exception('CFG-003E Error while attempting to update DPM-metrics config file: %s', ex)
+        else : logging.error('CFG-004E DPM-metrics Configuration file has no, or an invalid SMS-Metrics section!')
 
 
     def resetSMSmetrics(self) :
@@ -499,8 +499,8 @@ class Configuration:
                 self.MetricsParse.write(fp)
                 fp.close()
             except (configparser.Error, IOError, OSError) as ex :
-                logging.exception('CFG-005E Error while attempting to update SMS config file: %s', ex)
-        else : logging.error('CFG-006E SMS Configuration file has no, or an invalid SMS-Metrics section!')
+                logging.exception('CFG-005E Error while attempting to update DPM-metrics config file: %s', ex)
+        else : logging.error('CFG-006E DPM-metrics Configuration file has no, or an invalid SMS-Metrics section!')
 
 
     def getDateTimeStr(self) :
@@ -540,8 +540,8 @@ class Configuration:
                 self.MetricsParse.write(fp)
                 fp.close()
             except (configparser.Error, IOError, OSError) as ex :
-                logging.exception('CFG-005E Error while attempting to update DPM-metrics config file: %s', ex)
-        else : logging.error('CFG-006E DPM-metrics Configuration file has no, or an invalid RaspberryPi section!')
+                logging.exception('CFG-007E Error while attempting to update DPM-metrics config file: %s', ex)
+        else : logging.error('CFG-008E DPM-metrics Configuration file has no, or an invalid RaspberryPi section!')
 
 
     def resetRasPiReboots(self) :
@@ -553,8 +553,8 @@ class Configuration:
                 self.MetricsParse.write(fp)
                 fp.close()
             except (configparser.Error, IOError, OSError) as ex :
-                logging.exception('CFG-007E Error while attempting to update DPM-metrics config file: %s', ex)
-        else : logging.error('CFG-008E DPM-metrics Configuration file has no, or an invalid RaspberryPi section!')
+                logging.exception('CFG-009E Error while attempting to update DPM-metrics config file: %s', ex)
+        else : logging.error('CFG-010E DPM-metrics Configuration file has no, or an invalid RaspberryPi section!')
 
 
 
