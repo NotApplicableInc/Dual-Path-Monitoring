@@ -7,7 +7,7 @@ or FITNESS FOR A PARTICULAR PURPOSE.
 """
 
 """
-Version 1.01 (requires Python 3.9 or a more current release)
+Version 1.02 (requires Python 3.9 or a more current release)
 DPM.py implements Dual Path Monitoring ("DPM") for a Honeywell ("Resideo") Vista home
 security system equipped with an EyezOn Envisalink EVL4 IP Security Interface Module.
 
@@ -23,7 +23,7 @@ to surveil the Honeywell system when an Internet connection IS available.
 """
 
 import sys
-MIN_PYTHON = (3, 9)                             # Need at least Python V3.9
+MIN_PYTHON = (3, 9)                                 # Need at least Python V3.9
 if sys.version_info < MIN_PYTHON :
     sys.exit("DPM-001E Cannot continue -- Python %s.%s or later is required.\n" % MIN_PYTHON)
 import subprocess
@@ -104,9 +104,10 @@ def main():
         callCellPhones(cnf1, mdm1, 'DPM-001I Dual Path Monitoring activated ... ', False, False, True)   # Reboot Alert
 
     # set timers to force initial 'heart-beat' checks for EVL4 and modem
-    tpolltime = time.time_ns() - (1000000000 * tpollmins * 60)
-    tkatime = time.time_ns() - (1000000000 * telkeepalive)
-    mkatime = time.time_ns() - (1000000000 * mdmkeepalive)
+    thetimenow = time.time_ns()                    # get current nanosec time
+    tpolltime = thetimenow - (1000000000 * tpollmins * 60)
+    tkatime = thetimenow - (1000000000 * telkeepalive)
+    mkatime = thetimenow - (1000000000 * mdmkeepalive)
 
     fullMsg = ''                                   # initialize collated EVL4 message
 
@@ -135,7 +136,7 @@ def main():
                 pass
             else :
                 msgstr = cid1.getDescription(event) # convert numeric CID into text
-                logging.info('DPM-004I Decoded syslog CID is: %s', msgstr)
+                logging.info('DPM-004I Alert: Decoded syslog CID is: %s', msgstr)
                 doAlerts(cnf1, mdm1, png1, msgstr, True) # Lowercase matching
         else : pass                                 # we are not doing syslog scanning
 
