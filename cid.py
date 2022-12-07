@@ -398,14 +398,14 @@ class DecodeCID:
 
 
     # customize the Zone descriptions for your own security system
-    def setZones(self,myZones):
+    def setZones(self, myZones):
         if ( (isinstance(myZones, dict)) and (len(myZones) != 0) ) :
             self.zones = myZones
         else : logging.info('CID-001W setZones() requires a populated dictionary')
 
 
     # customize the User descriptions for your own security system
-    def setUsers(self,myUsers):
+    def setUsers(self, myUsers):
         if ( (isinstance(myUsers, dict)) and (len(myUsers) != 0) ) :
             self.users = myUsers
         else : logging.info('CID-002W setUsers() requires a populated dictionary')
