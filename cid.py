@@ -11,7 +11,7 @@ import logging
 
 class DecodeCID:
 
-    # Version 1.0
+    # Version 1.01
     # A Python class to decode Ademco-Honeywell-Resideo Vista security system CID (Contact ID)
     # event codes, furnished by an Eyezon Envisalink EVL4 module, via it's IP socket "TPI"
     # interface, or via it's syslog client feature (EVL4 firmware 1.1.108 or later).
@@ -399,12 +399,16 @@ class DecodeCID:
 
     # customize the Zone descriptions for your own security system
     def setZones(self,myZones):
-        self.zones = myZones
+        if ( (isinstance(myZones, dict)) and (len(myZones) != 0) ) :
+            self.zones = myZones
+        else : logging.info('CID-001W setZones() requires a populated dictionary')
 
 
     # customize the User descriptions for your own security system
     def setUsers(self,myUsers):
-        self.users = myUsers
+        if ( (isinstance(myUsers, dict)) and (len(myUsers) != 0) ) :
+            self.users = myUsers
+        else : logging.info('CID-002W setUsers() requires a populated dictionary')
 
 
     # decode the CID into reasonably simple English
