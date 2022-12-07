@@ -12,7 +12,7 @@ import logging
 
 class PingOne:
 
-# Version 1.0
+# Version 1.01
 # A Python class to round-robin a collection of internet hosts known to respond
 # to a ping.  Used for basic confirmation of a functional internet connection.
 
@@ -28,8 +28,9 @@ class PingOne:
 
     # replace default pingers with a custom set
     def setPingers(self, myPingers) :
-        if myPingers != None :
-            self.pingers = eval(myPingers)
+        if ( (isinstance(myPingers, dict)) and (len(myPingers) != 0) ) :
+            self.pingers = myPingers
+        else : logging.info('PNG-001W setPingers() requires a populated dictionary')
 
 
     # return number of hostnames in the pingers dictionary
