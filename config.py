@@ -14,7 +14,7 @@ from datetime import datetime
 
 class Configuration:
 
-# Version 1.03
+# Version 1.04
 # A Python class to manage the config file for the DPM.py application
 # The main configuration file (DPM.ini) contains read-only, string variables.
 # The separate, small DPM-metrics.ini config file contains a [Metrics] section that
@@ -289,13 +289,13 @@ class Configuration:
     def getZones(self) :
         if self.DPMparse.has_option('SecuritySystem', 'Zones') :
             return eval(self.DPMparse.get('SecuritySystem', 'Zones'))
-        else: return None
+        else: return {}
 
 
     def getUsers(self) :
         if self.DPMparse.has_option('SecuritySystem', 'Users') :
             return eval(self.DPMparse.get('SecuritySystem', 'Users'))
-        else: return None
+        else: return {}
 
 
     def getIgnoreTokens(self) :
@@ -425,9 +425,9 @@ class Configuration:
 
     def getPingers(self) :
         if self.DPMparse.has_option('Ping', 'Pingers') :
-            pingers = self.DPMparse.get('Ping', 'Pingers')
+            pingers = eval(self.DPMparse.get('Ping', 'Pingers'))
             return pingers
-        else : return None
+        else : return {}
 
 
     def doSendSMS(self) :
