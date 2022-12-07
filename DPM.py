@@ -7,7 +7,7 @@ or FITNESS FOR A PARTICULAR PURPOSE.
 """
 
 """
-Version 1.02 (requires Python 3.9 or a more current release)
+Version 1.03 (requires Python 3.9 or a more current release)
 DPM.py implements Dual Path Monitoring ("DPM") for a Honeywell ("Resideo") Vista home
 security system equipped with an EyezOn Envisalink EVL4 IP Security Interface Module.
 
@@ -48,12 +48,14 @@ def main():
         slg1=ScanEVL4Log(scanlog, offset)           # create ScanEVL4Log object
 
     png1 = PingOne()                                # create PingOne object
+    myPingers = cnf1.getPingers()                   # get pingers from config file
+    png1.setPingers(myPingers)                      # customize the hosts to be pinged
 
     cid1 = DecodeCID('NORMAL')                      # create normally verbose DecodeCID object
-    myUsers = cnf1.getUsers()                       # get user details fron config file
-    if myUsers is not None : cid1.setUsers(myUsers) # customize User IDs and names
+    myUsers = cnf1.getUsers()                       # get user details from config file
+    cid1.setUsers(myUsers)                          # customize User IDs and names
     myZones = cnf1.getZones()                       # get zone details from config file
-    if myZones is not None : cid1.setZones(myZones) # customize Zone IDs and descriptions
+    cid1.setZones(myZones)                          # customize Zone IDs and descriptions
 
     mcomms = cnf1.getModemCommsDevice()             # modem device name for normal AT commands
     mboot = cnf1.getModemRebootDevice()             # modem device for AT#REBOOT command only
