@@ -605,7 +605,7 @@ def scanSyslog(cnf1, slg1, msg03txt) :
         return None
 
 
-# If a TPI (msg03txt) CID matches an ajacent unreported, recent syslog CID,
+# If a TPI (msg03txt) CID matches an adjacent unreported, recent syslog CID,
 # flag the matching syslog CID as reported and allow the TPI CID to take
 # precedence.
 # Example: of msg03txt: {1657479585020845200: 'CID=3373010010', 1657479615989407200: 'CID=1441010010'}
@@ -629,7 +629,7 @@ def checkSyslog(cnf1, slg1, msg03txt, isReptd) :
     # For example, "arm, disarm, re-arm", as in the real world scenario where
     # you arm the system, leave your house, realize you forgot your car keys,
     # enter your house, disarm the system, find your car keys, re-arm the system
-    # and leave house again.  The aim is to prevent the final re-arm being 
+    # and leave the house again.  The aim is to prevent the final re-arm being 
     # ignored because its CID matches the initial, yet recent arm event.
     if (isReptd is True and len(keysSLGcron) > 1) :    # reported CIDs
         for i in range(0, 1) :
