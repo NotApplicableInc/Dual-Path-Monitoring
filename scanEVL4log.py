@@ -14,7 +14,7 @@ from pygtail import Pygtail             # tail log file written by EVL4 syslog c
 
 class ScanEVL4Log:
 
-# Version 1.1
+# Version 1.01
 # A Python class to scan the EVL4 log file written to by an EVL4
 # syslog client
 
