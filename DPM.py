@@ -7,7 +7,7 @@ or FITNESS FOR A PARTICULAR PURPOSE.
 """
 
 """
-Version 1.03 (requires Python 3.9 or a more current release)
+Version 1.04 (requires Python 3.9 or a more current release)
 DPM.py implements Dual Path Monitoring ("DPM") for a Honeywell ("Resideo") Vista home
 security system equipped with an EyezOn Envisalink EVL4 IP Security Interface Module.
 
@@ -349,7 +349,7 @@ def checkYellowAlert(cnf1, msg) :
 
 # check for non Alert" events
 def checkNonAlert(cnf1, msg) :
-    tmpmsg = msg.split('!')         # Exclamation Mark is NOT arbitrary    
+    tmpmsg = msg.split('!')         # Exclamation Mark is NOT arbitrary
     if '!' in msg :
         msg = tmpmsg[1]             # the decoded CID half of the message
     else :
@@ -361,7 +361,7 @@ def checkNonAlert(cnf1, msg) :
         tok = tok.lower()           # passed message must have been lowercased
         if tok in msg :
             hit = True
-            logging.info('DPM-013W NON Alert token found  \'%s\'  in message', tok)
+            logging.info('DPM-000W NON Alert token found  \'%s\'  in message', tok)
         else : pass
     # end of for loop
 
@@ -617,11 +617,35 @@ def checkSyslog(cnf1, slg1, msg03txt, isReptd) :
     ADJACENT_SECS = cnf1.getAdjacentSecondsEVL4()
     logging.trace('DPM-045I ADJACENT_SECS is: %s', ADJACENT_SECS)
     recentCIDs = slg1.getRecentCIDs(RECENT_SECS, isReptd)
-    keysSLG = sorted(recentCIDs.keys(), reverse=True)   # most recent first
+    keysSLGcron = sorted(recentCIDs.keys())            # chronological order
+    keysSLG = sorted(recentCIDs.keys(), reverse=True)  # most recent first
     (status := 'reported') if isReptd else (status := 'unreported')
     logging.trace('DPM-046I Recent, %s CIDs from syslog: %s', status, recentCIDs)
     keysTPI = sorted(msg03txt.keys(), reverse=True)    # most recent first
-
+    
+    # first, check for a recent, reported Syslog CID pair that negate each other
+    # for example, arm then disarm or vice versa.  This kludgy logic addresses
+    # a related sequence of events that occur in close temporal proximity.
+    # For example, "arm, disarm, re-arm", as in the real world scenario where
+    # you arm the system, leave your house, realize you forgot your car keys,
+    # enter your house, disarm the system, find your car keys, re-arm the system
+    # and leave house again.  The aim is to prevent the final re-arm being 
+    # ignored because its CID matches the initial, yet recent arm event.
+    if (isReptd is True and len(keysSLGcron) > 1) :    # reported CIDs
+        for i in range(0, 1) :
+            left1 = recentCIDs[keysSLGcron[i]][0:1:1]
+            left9 = recentCIDs[keysSLGcron[i]][1:10:1]
+            right1 = recentCIDs[keysSLGcron[i+1]][0:1:1]
+            right9 = recentCIDs[keysSLGcron[i+1]][1:10:1]
+            if (left9 == right9) :
+                if ( (right1 == '3' and left1 == '1') or (right1 == '1' and left1 == '3') ) :
+                    logging.debug('DPM-010W Negating Syslog CID pair found: %s', recentCIDs)
+                    return False
+                else :
+                    pass
+            else :
+                pass
+  
     isMatched = False
     for key1 in keysSLG :
         if len(keysTPI) > 0 :
@@ -661,7 +685,7 @@ def doInboundSMS(cnf1, mdm1, tel1) :
     for x in SMSrequest :
         validphone = cnf1.checkInboundPhoneSMS(x[1])
         if validphone is None :
-            logging.debug('DPM-010W Invalid phone number %s', x[1])
+            logging.debug('DPM-011W Invalid phone number %s', x[1])
         else :
             xlen = len(x)
             str1 = ''
@@ -695,7 +719,7 @@ def doInboundSMS(cnf1, mdm1, tel1) :
                 logging.debug('DPM-052I About to arm -- Partition: %s, Arming mode: %s', partition, armMode)
                 tel1.systemArm(validphone, partition, armMode)
             else :
-                logging.debug('DPM-011W Invalid Request %s', str1)
+                logging.debug('DPM-012W Invalid Request %s', str1)
 
     # end of for loop
 
