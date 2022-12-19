@@ -14,7 +14,7 @@ from pygtail import Pygtail             # tail log file written by EVL4 syslog c
 
 class ScanEVL4Log:
 
-# Version 1.0
+# Version 1.1
 # A Python class to scan the EVL4 log file written to by an EVL4
 # syslog client
 
@@ -50,7 +50,7 @@ class ScanEVL4Log:
         self.offset = offset
         logging.info('SCN-001I ScanEVL4Log object created')
 
-        self.MAX_HISTORY = 3
+        self.MAX_HISTORY = 2    # Do NOT change this value, else the behavior of DPM.py will be unpredictable.
 
         self.CIDevents = {
             'CIDs'      : {},
@@ -128,7 +128,7 @@ class ScanEVL4Log:
 
     # Method to prune surplus historical CIDs scraped from EVL4's syslog.
     # "self.CIDevents" is NOT re-initialized before each scan because we need
-    # some history to drive the logic for getRecentUnreportedCIDs(). The pygtail
+    # some history to drive the logic for getRecentCIDs(). The pygtail
     # offset file prevents large accretion, but some pruning is still required.
     def doPruning(self) :
         keys = sorted(self.CIDevents['CIDs'].keys())
