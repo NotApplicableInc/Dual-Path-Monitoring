@@ -19,7 +19,7 @@ import logging
 
 class MyModem:
 
-# Version 1.0
+# Version 1.1
 # A Python class to manage a wireless modem with its AT command
 # language, using serial communications, via USB interface.
 
@@ -37,6 +37,7 @@ class MyModem:
         self.baud = baud        # modem baud rate
         self.timeout = timeout  # modem connection timeout (seconds)
         self.retries = retries  # modem failed connection retry count
+        self.bootwait = cnf1.getModemWaitSecsForBoot()  # seconds to wait for modem to finish rebooting
 
         logging.info('MDM-001I MyModem object created')
         reply = ''
@@ -286,12 +287,12 @@ class MyModem:
             sleep(0.5)
             reply = self.bootcon.readall()
             logging.debug('MDM-019I Modem replied: %s', reply)
-            logging.debug('MDM-001W About to REBOOT modem ...')
+            logging.info('MDM-001W About to REBOOT modem ...')
             self.bootcon.write(b'AT#REBOOT\r')
             sleep(1)
             # must now destroy the reboot serial object
             if (self.bootcon is not None) : self.bootcon.__del__()
-            sleep(20)                 # give modem time to reboot and be ready
+            sleep(self.bootwait)        # give modem time to reboot and be ready
 
         except Exception as ex :
             logging.error('MDM-006E Failed to reboot modem with \'AT#REBOOT\' : %s', str(ex))
