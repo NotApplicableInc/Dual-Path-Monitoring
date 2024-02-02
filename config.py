@@ -14,7 +14,7 @@ from datetime import datetime
 
 class Configuration:
 
-# Version 1.04
+# Version 1.05
 # A Python class to manage the config file for the DPM.py application
 # The main configuration file (DPM.ini) contains read-only, string variables.
 # The separate, small DPM-metrics.ini config file contains a [Metrics] section that
@@ -214,16 +214,23 @@ class Configuration:
             return self.DPMparse.get('Modem', 'ModemRebootDevice')
         else : return 'what\'s the modem reboot device?'
 
+    
     def getModemBaud(self) :
         if self.DPMparse.has_option('Modem', 'ModemBaud') :
             return int(self.DPMparse.get('Modem', 'ModemBaud'))
         else : return 9600
 
+    
+    def getModemWaitSecsForBoot(self) :
+        if self.DPMparse.has_option('Modem', 'ModemWaitSecsForBoot') :
+            return int(self.DPMparse.get('Modem', 'ModemWaitSecsForBoot'))
+        else : return 30 
 
+    
     def getModemTimeOut(self) :
         if self.DPMparse.has_option('Modem', 'ModemTimeOutSecs') :
-            return float(self.DPMparse.get('Modem', 'ModemTimeOutSecs'))
-        else : return 10.0
+            return int(self.DPMparse.get('Modem', 'ModemTimeOutSecs'))
+        else : return 10
 
 
     def getModemRetries(self) :
