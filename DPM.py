@@ -7,7 +7,7 @@ or FITNESS FOR A PARTICULAR PURPOSE.
 """
 
 """
-Version 1.04 (requires Python 3.9 or a more current release)
+Version 1.05 (requires Python 3.9 or a more current release)
 DPM.py implements Dual Path Monitoring ("DPM") for a Honeywell ("Resideo") Vista home
 security system equipped with an EyezOn Envisalink EVL4 IP Security Interface Module.
 
@@ -717,7 +717,11 @@ def doInboundSMS(cnf1, mdm1, tel1) :
                 if( ('INSTANT' in str1) ) :
                     armMode = '7'
                 logging.debug('DPM-052I About to arm -- Partition: %s, Arming mode: %s', partition, armMode)
-                tel1.systemArm(validphone, partition, armMode)
+                tel1.systemAction(validphone, partition, armMode)
+            elif 'CHIME' in str1 :
+                logging.debug('DPM-052I Found toggle CHIME request in \"%s\"', str1)
+                partition = '1'     # default partition
+                tel1.systemAction(validphone, partition, '9')  # '9' = toggle CHIME
             else :
                 logging.debug('DPM-012W Invalid Request %s', str1)
 
