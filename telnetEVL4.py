@@ -23,7 +23,7 @@ from telnetlib import Telnet                # Python's telnet library
 
 class TelnetEVL4 :
 
-# Version 1.0
+# Version 1.01
 # A Python class to communicate with an EVL4 via an IP socket using
 # the python Telnet library. There can only be one active session.
 
@@ -486,16 +486,17 @@ class TelnetEVL4 :
         return msg2
 
 
+    # Toggle the CHIME feature ('9' = toggle CHIME) -- useful for testing, or
     # Arm the system using an ARM-ONLY privilege-level, security system user account.
     # SMS text messages are NOT secure.  Do NOT use SMS to disarm a security system,
     # as that would need public-key-private-key encryption or similarly robust security.
-    # armtype:  '2' = AWAY ; '3' = STAY ; '33' = NIGHT STAY ; '7' = INSTANT
-    def systemArm(self, cellphone, partition, armtype) :
+    # actcode:  '2' = AWAY ; '3' = STAY ; '33' = NIGHT STAY ; '7' = INSTANT
+    def systemAction(self, cellphone, partition, actcode) :
         cellreverse = cellphone[::-1]   # some 'security', via obscurity
         cellchk1 = generate(cellphone)  # some 'security', via Luhn obscurity
         cellchk2 = (cellchk1 + 7)       # some 'security' via obscurity
         if cellchk2 > 9 : cellchk2 -= 9 # some 'security' via obscurity
-        keystrokes = cellreverse[0:2] + str(cellchk1) + str(cellchk2) + armtype
+        keystrokes = cellreverse[0:2] + str(cellchk1) + str(cellchk2) + actcode
         self.doKeystrokesToPartition(partition, keystrokes)
         return
 
