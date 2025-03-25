@@ -19,7 +19,7 @@ import logging
 
 class MyModem:
 
-# Version 1.1
+# Version 1.2
 # A Python class to manage a wireless modem with its AT command
 # language, using serial communications, via USB interface.
 
@@ -58,7 +58,7 @@ class MyModem:
                     logging.error('MDM-001E Modem issue ... will re-try: %s', str(ex))
                     if (self.commscon is not None) : self.commscon.__del__()
                     self.commscon = None
-                    sleep(10)   # snooze and hope for better luck next time around
+                    sleep(30)   # snooze and hope for better luck next time around
             # end of for loop
 
         else :
@@ -140,7 +140,7 @@ class MyModem:
                     logging.error('MDM-001E Modem issue ... will re-try: %s', str(ex))
                     if (self.commscon is not None) : self.commscon.__del__()
                     self.commscon = None
-                    sleep(10)   # snooze and hope for better luck next time around
+                    sleep(30)   # snooze and hope for better luck next time around
             # end of for loop
 
 
@@ -258,7 +258,7 @@ class MyModem:
                     self.commscon.__del__()
                     self.commscon = None
                 else : pass
-                sleep(10)           #snooze and hope for better luck next time around
+                sleep(30)           #snooze and hope for better luck next time around
         # end of for loop
 
         if self.commscon is None :
